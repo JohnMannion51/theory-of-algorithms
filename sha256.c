@@ -87,6 +87,8 @@ uint32_t K[] = {
   // For looping
   int i, t;
 
+  // Loop through the message blocks
+  for (i = 0; i < 1; i++) {
   // From page 22, W[t] = M[t] for 0 <= t <= 15.
   for (t = 0; t < 16; t++)
     W[t] = M[t];
@@ -124,8 +126,10 @@ uint32_t K[] = {
   H[6] = g + H[6];
   H[7] = h + H[7];
 
-  printf("%x %x %x %x %x %x %x %x\n", H[0], H[1], H[2], H[3], H[4], H[5], H[6], H[7]);
+  }
 
+  printf("%x %x %x %x %x %x %x %x\n", H[0], H[1], H[2], H[3], H[4], H[5], H[6], H[7]);
+ 
 }//sha256
 
 
