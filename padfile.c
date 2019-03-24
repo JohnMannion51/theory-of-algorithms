@@ -19,6 +19,7 @@ int main(int argc, char *argv[]){
 
   while (!feof(f)) {
     nobytes = fread(M.e, 1, 64, f);
+    printf("Read %2llu bytes \n", nobytes);
     nobits = nobits + (nobytes * 8);
     if (nobytes < 56){
       printf("I've found a block with less than 55 bytes !\n");
@@ -33,10 +34,9 @@ int main(int argc, char *argv[]){
 
   fclose(f);
 
-  for (int i = 0; i < 64; i++){
+  for (int i = 0; i < 64; i++)
     printf("%x ",M.e[i]);
-   }
-   printf("\n");
+    printf("\n");
 
   return 0 ;
 }
