@@ -1,7 +1,7 @@
 // John Mannion, 2019
 // The Secure Hash Algorithm, 256 bit version
 // https://ws680.nist.gov/publication/get_pdf.cfm?pub_id=919060 
-
+// This is a back up file of sha256.c
 // The usual input/output header file
 #include <stdio.h>
 // For using fixed bit integers
