@@ -194,11 +194,27 @@ uint32_t Maj(uint32_t x, uint32_t y, uint32_t z){
 
 int nextmsgblock(File *f, union msgblock *M, enum status *S, int *nobits){
 
-//The number of bytes we get from fread 
+  //The number of bytes we get from fread 
   uint64_t nobytes;
   
-// For looping
+  // For looping
   int i;
+  // If we have finished all the message blocks, then s should be FINISH.
+  if (*S == FINISH)
+    return 0;
+
+  // Otherwise, check if we need another block full of padding
+  if (*S == PAD0 || *S == PAD1){
+    // Set the first 56 bytes to all zero bits.
+    for (i = 0; i < 56; i++) 
+       M.e[i] = 0x00;     
+      // Set the last 64 bits to the number of bits in the file (should be big-endian).
+      M.s[7] = nobits;
+      *S = FINISH; 
+  }
+  if (S == PAD1)
+    M.e[7]= 0x80;
+  
 
 
   while (S == READ) {
@@ -232,17 +248,6 @@ int nextmsgblock(File *f, union msgblock *M, enum status *S, int *nobits){
     }//else if 
   }//while
 
-  if (S == PAD0 || S == PAD1){
-    for (i = 0; i < 56; i++) {
-          M.e[i] = 0x00;
-    }     
-     M.s[7] = nobits; 
-    
-  }
-  if (S == PAD1){
-    M.e[7]= 0x80;
-  }
-
   fclose(f);
 
   for (int i = 0; i < 64; i++)
@@ -250,7 +255,5 @@ int nextmsgblock(File *f, union msgblock *M, enum status *S, int *nobits){
     printf("\n");
 
   return 0 ;
-}//main
+  }//nextmsgblock
 
-}
-}
