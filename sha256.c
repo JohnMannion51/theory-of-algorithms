@@ -47,11 +47,20 @@ int main(int argc, char *argv[]){
   FILE* msgf;
   msgf = fopen(argv[1], "r");
   // Should do error checking here.
+  // If the file is empty or does not exist this message will  print.
+  // Otherwise passes the file to sha256.  
+  if( access( argv[1], F_OK) != -1){
 
-  // Run the secure hash algorithm on the file.
-  sha256(msgf);
-  // Close the file.
-  fclose(msgf);
+    // Run the secure hash algorithm on the file.
+    sha256(msgf);
+    // Close the file.
+    fclose(msgf);
+  }
+  else {
+    printf("File doesnt exist\n");
+
+  }
+
 
   return 0;
 }//main
