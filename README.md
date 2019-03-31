@@ -75,6 +75,18 @@ union msgblock {
   
 Use emuns to store the state of the padding
 * enum status {READ , PAD0, PAD1, FINISH};
+SHA 256 works by reading message block of size 512, with the last 64 bits of the block left to denote the size of the original message. When the program reads in the file, it takes the bits of all the data and adds it up. It then add a one and pads the message block out with zeros to 448 bits. 512 - 64 = 448.
+
+A message of 3 characters with 8 bits each, 3 X 8 = 24
+A one is then added to the message 24 + 1 = 25
+The program will pad the message out with 423 zeros 448 - 25 = 423
+Leaving the last 64 bits so that a number representing the bits in the original message can be added to the block.
+If a message message contains more than 512 bit then multiple blocks of 512 are used
+If a message is 765 bits in size, the first block will take the first 512 bits
+The second block then takes the remaining 253 bits 756 - 512 = 253
+A one is then added to the message 253 + 1 = 254
+The program will pad the message out with 194 zeros 448 - 254 = 194
+Leaving the last 64 bits so that a number representing the bits in the original message can be added to the block
 
 ### Running the program
 * Compile the program using the command. ( gcc -o sha256 sha256.c )
@@ -84,10 +96,14 @@ The output should look like this for test file containing the string.
 
 "This is a test file for the secure hash algorithm 256". 
 
-Hash value of file is: 
+Hash value of file is:
+
 b71ce26e 92d898de 7bb543a4 1a6256bf e93f4d9a c8e101c2 a6dfea9c 84a99c99
 
-
+### Resources 
+Many thanks to Dr. Ian McLoughlin for his videos on how to create this project.
+[sha256](https://codeshare.co.uk/blog/sha-256-and-sha-512-hash-examples/)
+[java example](https://www.geeksforgeeks.org/sha-256-hash-in-java/)
 
 
 
