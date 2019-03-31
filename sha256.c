@@ -6,6 +6,7 @@
 #include <stdio.h>
 // For using fixed bit integers
 #include <stdint.h>
+#include <unistd.h>
 
 // Represents a message block.
 union msgblock {
